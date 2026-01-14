@@ -1,358 +1,300 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dube's Catering</title>
+    <title>Dube's Catering | Premium Events</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
-   
+    
     <style>
         /* --- CSS VARIABLES & RESET --- */
         :root {
-            --primary-color: #ff6600;
-            --secondary-color: #ffffff;
-            --text-color: #333333;
-            --light-bg: #fffaf0;
-            --white: #ffffff;
+            --primary-color: #ff6600; /* Vivid Orange */
+            --dark-bg: #0a0a0a;       /* Deep Black */
+            --dark-accent: #1a1a1a;   /* Soft Black for cards */
+            --text-light: #f4f4f4;
+            --text-dim: #bbbbbb;
             --font-heading: 'Playfair Display', serif;
             --font-body: 'Lato', sans-serif;
             --transition: all 0.3s ease;
         }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        html {
-            scroll-behavior: smooth;
-        }
+
+        html { scroll-behavior: smooth; }
+
         body {
             font-family: var(--font-body);
-            color: var(--text-color);
+            color: var(--text-light);
+            background-color: var(--dark-bg);
             line-height: 1.6;
         }
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
+
         /* --- NAVIGATION --- */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1.5rem 5%;
-            background-color: transparent; /* Starts transparent */
             position: fixed;
             width: 100%;
             top: 0;
             z-index: 1000;
             transition: var(--transition);
         }
+
         .navbar.scrolled {
-            background-color: var(--secondary-color);
-            padding: 1rem 5%;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            background-color: rgba(0, 0, 0, 0.95);
+            padding: 0.8rem 5%;
+            border-bottom: 2px solid var(--primary-color);
         }
+
         .logo {
             font-family: var(--font-heading);
             font-size: 1.8rem;
             font-weight: 700;
-            color: var(--white);
-            letter-spacing: 1px;
+            color: white;
+            text-decoration: none;
         }
-        .navbar.scrolled .logo {
-            color: var(--primary-color);
-        }
+
         .logo span { color: var(--primary-color); }
-        .nav-links {
-            display: flex;
-            gap: 2rem;
-        }
+
+        .nav-links { display: flex; gap: 2rem; }
+
         .nav-links a {
-            color: var(--white);
-            font-weight: 400;
-            font-size: 0.95rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: var(--transition);
-            position: relative;
-        }
-        .navbar.scrolled .nav-links a {
-            color: var(--text-color);
-        }
-        .nav-links a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -5px;
-            left: 0;
-            background-color: var(--primary-color);
-            transition: var(--transition);
-        }
-        .nav-links a:hover::after { width: 100%; }
-        .btn-cta {
-            padding: 0.8rem 1.8rem;
-            background-color: var(--primary-color);
-            color: var(--white);
-            border: none;
-            border-radius: 2px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: var(--transition);
+            color: white;
+            text-decoration: none;
             text-transform: uppercase;
             font-size: 0.85rem;
             letter-spacing: 1px;
+            transition: var(--transition);
         }
+
+        .nav-links a:hover { color: var(--primary-color); }
+
+        .btn-cta {
+            padding: 0.8rem 1.8rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+
         .btn-cta:hover {
-            background-color: #cc5200;
-            transform: translateY(-2px);
+            background-color: #e65c00;
+            box-shadow: 0 0 15px rgba(255, 102, 0, 0.4);
         }
-        /* --- HERO SECTION (THE CORE REQUEST) --- */
+
+        /* --- HERO SECTION --- */
         .hero {
             height: 100vh;
-            width: 100%;
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.6)),
-                        url('https://images.unsplash.com/photo-1555244162-803834f70033?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)),
+                        url('https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
             background-size: cover;
             background-position: center;
-            background-attachment: fixed; /* Parallax effect */
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
+            justify-content: center;
             text-align: center;
-            color: var(--white);
-            padding: 0 1rem;
         }
-        .hero-content {
-            max-width: 800px;
-            animation: fadeIn 1.5s ease-out;
-        }
+
         .hero h1 {
             font-family: var(--font-heading);
-            font-size: 4rem;
-            font-style: italic;
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
             margin-bottom: 1rem;
-            line-height: 1.1;
+            color: white;
         }
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 2.5rem;
-            font-weight: 300;
-            letter-spacing: 0.5px;
-        }
-        /* --- FEATURES SECTION --- */
-        .features {
-            padding: 5rem 10%;
-            background-color: var(--white);
-            text-align: center;
-        }
+
+        .hero h1 span { color: var(--primary-color); }
+
+        /* --- SECTIONS --- */
+        section { padding: 6rem 10%; }
+
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        
         .section-header h2 {
             font-family: var(--font-heading);
             font-size: 2.5rem;
-            color: var(--text-color);
             margin-bottom: 1rem;
         }
-        .section-header .divider {
-            width: 60px;
+
+        .divider {
+            width: 80px;
             height: 3px;
-            background-color: var(--primary-color);
-            margin: 0 auto 3rem auto;
+            background: var(--primary-color);
+            margin: 0 auto;
         }
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-        }
-        .feature-card {
-            padding: 2rem;
-            border: 1px solid #eee;
-            transition: var(--transition);
-        }
-        .feature-card:hover {
-            box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-            border-color: var(--primary-color);
-        }
-        .feature-icon {
-            font-size: 2rem;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-        /* --- MENU PREVIEW --- */
-        .menu-preview {
-            padding: 5rem 5%;
-            background-color: var(--primary-color);
-            color: var(--white);
-        }
-        .menu-preview .section-header h2 { color: var(--white); }
+
+        /* --- MENU/GALLERY GRID --- */
         .menu-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
+            gap: 20px;
         }
+
         .menu-item {
             position: relative;
+            height: 400px;
             overflow: hidden;
-            height: 300px;
-            border-radius: 4px;
+            border: 1px solid #333;
         }
+
         .menu-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s ease;
+            filter: grayscale(30%) brightness(80%);
+            transition: var(--transition);
         }
+
+        .menu-item:hover img {
+            transform: scale(1.05);
+            filter: grayscale(0%) brightness(100%);
+        }
+
         .menu-overlay {
             position: absolute;
             bottom: 0;
             left: 0;
-            width: 100%;
-            padding: 1.5rem;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), transparent);
-            color: var(--white);
+            right: 0;
+            padding: 2rem;
+            background: linear-gradient(transparent, rgba(0,0,0,0.9));
         }
-        .menu-item:hover img { transform: scale(1.1); }
-        /* --- CONTACT SECTION --- */
-        .contact {
-            padding: 5rem 10%;
-            background-color: var(--light-bg);
-            text-align: center;
-        }
-        .form-box {
-            max-width: 600px;
+
+        .menu-overlay h3 { color: var(--primary-color); font-size: 1.5rem; }
+
+        /* --- CONTACT FORM --- */
+        .contact-container {
+            background: var(--dark-accent);
+            padding: 3rem;
+            border-radius: 8px;
+            max-width: 800px;
             margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
+            border: 1px solid #333;
         }
+
         input, textarea {
+            width: 100%;
             padding: 1rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            margin-bottom: 1rem;
+            background: #000;
+            border: 1px solid #444;
+            color: white;
             font-family: var(--font-body);
         }
-        textarea { resize: vertical; min-height: 150px; }
-        /* --- FOOTER --- */
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
         footer {
-            background-color: #111;
-            color: #888;
+            padding: 3rem;
             text-align: center;
-            padding: 2rem;
-            font-size: 0.9rem;
+            border-top: 1px solid #222;
+            background: #000;
         }
-        /* --- ANIMATIONS --- */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        /* --- RESPONSIVE --- */
+
+        /* RESPONSIVE */
         @media (max-width: 768px) {
-            .hero h1 { font-size: 2.5rem; }
-            .nav-links { display: none; } /* Simplified for demo */
-            .navbar { justify-content: space-between; }
+            .nav-links { display: none; }
+            section { padding: 4rem 5%; }
         }
     </style>
 </head>
 <body>
+
     <nav class="navbar" id="navbar">
         <a href="#" class="logo">Dube's<span>&</span>Catering</a>
         <div class="nav-links">
             <a href="#home">Home</a>
-            <a href="#about">About</a>
-            <a href="#menu">Menu</a>
+            <a href="#about">Our Expertise</a>
+            <a href="#events">Events</a>
             <a href="#contact">Contact</a>
         </div>
-        <a href="#contact" class="btn-cta">Book Event</a>
+        <a href="#contact" class="btn-cta">Book Now</a>
     </nav>
+
     <header id="home" class="hero">
         <div class="hero-content">
-            <h1>Exquisite Tastes for<br>Unforgettable Moments</h1>
-            <p>Premium catering for weddings, corporate events, and parties. Experience the art of culinary perfection.</p>
-            <a href="#menu" class="btn-cta" style="font-size: 1rem; padding: 1rem 2.5rem;">View Our Menu</a>
+            <h1>Elegance In <span>Every</span> Bite</h1>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem;">Bespose Catering for Weddings, Corporate Gala, and Private Parties.</p>
+            <a href="#events" class="btn-cta">Explore Gallery</a>
         </div>
     </header>
-    <section id="about" class="features">
+
+    <section id="about">
         <div class="section-header">
-            <h2>Why Choose Us</h2>
-            <div class="divider"></div>
-        </div>
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">🌿</div>
-                <h3>Farm to Table</h3>
-                <p>We source local, organic ingredients to ensure the freshest flavors in every bite.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">👨‍🍳</div>
-                <h3>Master Chefs</h3>
-                <p>Our culinary team brings decades of experience from the world's finest kitchens.</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">✨</div>
-                <h3>Bespoke Service</h3>
-                <p>Every menu is custom-designed to match the theme and tone of your specific event.</p>
-            </div>
-        </div>
-    </section>
-    <section id="menu" class="menu-preview">
-        <div class="section-header" style="text-align: center;">
-            <h2>Signature Dishes</h2>
+            <h2>The Gold Standard</h2>
             <div class="divider"></div>
         </div>
         <div class="menu-grid">
             <div class="menu-item">
-                <img src="https://images.unsplash.com/photo-1546241072-48010ad2862c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Appetizer">
+                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Wedding">
                 <div class="menu-overlay">
-                    <h3>Gourmet Appetizers</h3>
-                    <p>Seasonal starters and canapés.</p>
+                    <h3>Royal Weddings</h3>
+                    <p>Sophisticated menus for your special day.</p>
                 </div>
             </div>
             <div class="menu-item">
-                <img src="https://images.unsplash.com/photo-1600891964092-4316c288032e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Main Course">
+                <img src="https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Corporate">
                 <div class="menu-overlay">
-                    <h3>Prime Cuts</h3>
-                    <p>Aged steaks and roasted lamb.</p>
+                    <h3>Corporate Events</h3>
+                    <p>Impress your clients with bold flavors.</p>
                 </div>
             </div>
             <div class="menu-item">
-                <img src="https://images.unsplash.com/photo-1563729784474-d77dbb933a9e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Dessert">
+                <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Parties">
                 <div class="menu-overlay">
-                    <h3>Artisan Desserts</h3>
-                    <p>Hand-crafted sweets and pastries.</p>
+                    <h3>Private Parties</h3>
+                    <p>Intimate gatherings with exquisite tastes.</p>
                 </div>
             </div>
         </div>
     </section>
-    <section id="contact" class="contact">
+
+    <section id="contact" style="background-color: #050505;">
         <div class="section-header">
-            <h2>Start Planning</h2>
+            <h2>Let's Plan Your Event</h2>
             <div class="divider"></div>
-            <p style="margin-bottom: 2rem;">Tell us about your event.</p>
         </div>
-        <form class="form-box">
-            <input type="text" placeholder="Your Name" required>
-            <input type="email" placeholder="Your Email" required>
-            <input type="text" placeholder="Event Date" onfocus="(this.type='date')">
-            <textarea placeholder="Tell us about your event (Guest count, preferences, dietary restrictions)..."></textarea>
-            <button type="submit" class="btn-cta">Send Inquiry</button>
-        </form>
+        <div class="contact-container">
+            <form>
+                <input type="text" placeholder="Full Name" required>
+                <input type="email" placeholder="Email Address" required>
+                <select style="width: 100%; padding: 1rem; margin-bottom: 1rem; background: #000; border: 1px solid #444; color: #888;">
+                    <option>Select Event Type</option>
+                    <option>Wedding</option>
+                    <option>Corporate</option>
+                    <option>Private Party</option>
+                </select>
+                <textarea placeholder="Tell us more about your vision..."></textarea>
+                <button type="submit" class="btn-cta" style="width: 100%;">Send Inquiry</button>
+            </form>
+        </div>
     </section>
+
     <footer>
-        <p>&copy; 2026 Dube's Catering. All rights reserved.</p>
-       
+        <p>&copy; 2026 Dube's Catering. | <span>Elegance defined.</span></p>
     </footer>
+
     <script>
-        // Navbar background change on scroll
-        const navbar = document.getElementById('navbar');
-       
         window.onscroll = function() {
+            const nav = document.getElementById('navbar');
             if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
+                nav.classList.add('scrolled');
             } else {
-                navbar.classList.remove('scrolled');
+                nav.classList.remove('scrolled');
             }
         };
     </script>
