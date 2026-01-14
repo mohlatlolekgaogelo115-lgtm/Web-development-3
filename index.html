@@ -1,336 +1,461 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dube's Catering</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Roboto:wght@900&display=swap" rel="stylesheet">
+    <title>Bite — Catering & Wedding Theme</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    
     <style>
-        body {
-            font-family: Arial, sans-serif;
+        :root {
+            /* Color Palette from Design */
+            --primary-dark: #0F0C09;
+            --primary-brown: #5A4336;
+            --accent-gold: #BB9463;
+            --accent-rust: #A05831;
+            --soft-beige: #DEDECF;
+            --light-grey: #CFC5B3;
+            --slate-grey: #72898C;
+            --white: #ffffff;
+            
+            /* Spacing & Layout */
+            --container-width: 1200px;
+            --section-padding: 80px 0;
+        }
+
+        * {
             margin: 0;
             padding: 0;
-            background-color: #ffffff; /* White background for clarity */
-            color: #333333; /* Dark text for visibility */
+            box-sizing: border-box;
         }
-        header {
-            background-color: #ff6600; /* Orange for header */
-            color: #ffffff; /* White text */
-            padding: 20px;
-            text-align: center;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .logo {
-            width: 200px;
-            height: 200px;
-            background-image: url('dubes-image.png');
-            background-position: center 30%; /* Focus on the logo overlay */
-            background-size: 200%; /* Zoom to highlight logo */
-            background-repeat: no-repeat;
-            margin: 0 auto;
-        }
-        nav {
-            margin-top: 10px;
-        }
-        nav a {
-            color: #ffffff; /* White links */
-            text-decoration: none;
-            margin: 0 15px;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-        nav a:hover {
-            color: #ffe6cc; /* Light orange tint on hover */
-        }
-        .hero {
-            background-image: url('https://i.postimg.cc/5Nf6DkSJ/cff2d420-55bb-4e60-8a71-0ab3f05c498f.jpg'); /* New hero image */
-            background-size: cover;
-            background-position: center;
-            height: 80vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            color: #ffffff;
-            text-align: center;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
-            position: relative;
-        }
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 102, 0, 0.3); /* Orange overlay for elegance */
-        }
-        .hero h1 {
-            font-size: 60px;
-            margin: 0;
-            font-family: 'Dancing Script', cursive;
-            z-index: 1;
-        }
-        .hero p {
-            font-size: 28px;
-            margin: 10px 0;
-            z-index: 1;
-        }
-        .cta {
-            background-color: #ff6600;
-            color: #ffffff;
-            padding: 15px 30px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: background-color 0.3s;
-            z-index: 1;
-        }
-        .cta:hover {
-            background-color: #cc5200;
-        }
-        .section {
-            padding: 60px 20px;
-            text-align: center;
-        }
-        .section h2 {
-            font-size: 40px;
-            color: #ff6600;
-            margin-bottom: 20px;
-            font-family: 'Roboto', sans-serif;
-        }
-        .section p {
-            max-width: 800px;
-            margin: 0 auto 40px;
+
+        body {
+            font-family: 'Lato', sans-serif;
+            color: var(--primary-dark);
+            background-color: var(--soft-beige);
             line-height: 1.6;
         }
-        .services {
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s ease;
+        }
+
+        .container {
+            max-width: var(--container-width);
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* BUTTONS */
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-gold);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-brown);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--primary-dark);
+            color: var(--primary-dark);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-dark);
+            color: var(--white);
+        }
+
+        /* HEADER */
+        header {
+            padding: 25px 0;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            background: transparent; /* Or semi-transparent for readability */
+        }
+
+        nav {
             display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary-brown);
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-rust);
+        }
+
+        /* HERO SECTION */
+        .hero {
+            height: 90vh;
+            background-color: var(--light-grey); /* Fallback color */
+            background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('https://images.unsplash.com/photo-1519225421980-715cb0202128?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
             justify-content: center;
-            flex-wrap: wrap;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            color: var(--white);
+        }
+
+        .hero-subtitle {
+            font-family: 'Lato', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 14px;
+            margin-bottom: 20px;
+            display: block;
+            color: var(--white);
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            line-height: 1.1;
+            margin-bottom: 30px;
+            color: var(--white);
+        }
+
+        /* ABOUT SECTION */
+        .about {
+            padding: var(--section-padding);
+            background-color: var(--white);
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+
+        .about-text h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            color: var(--primary-brown);
+        }
+
+        .about-text p {
+            margin-bottom: 30px;
+            color: var(--slate-grey);
+        }
+
+        /* SERVICES SECTION */
+        .services {
+            padding: var(--section-padding);
+            background-color: var(--soft-beige);
+            text-align: center;
+        }
+
+        .section-header {
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 42px;
+            margin-bottom: 15px;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
             gap: 30px;
         }
+
         .service-card {
-            background-color: #fffaf0;
-            border: 1px solid #ff6600;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            padding: 30px;
-            width: 300px;
-            transition: transform 0.3s;
+            background: var(--white);
+            padding: 40px;
+            transition: transform 0.3s ease;
         }
+
         .service-card:hover {
             transform: translateY(-10px);
         }
+
+        .service-icon {
+            font-size: 40px;
+            color: var(--accent-gold);
+            margin-bottom: 20px;
+            display: block;
+        }
+
         .service-card h3 {
-            color: #ff6600;
             font-size: 24px;
+            margin-bottom: 15px;
         }
-        .about {
-            background-color: #fffaf0;
+
+        .service-card p {
+            color: var(--slate-grey);
+            font-size: 15px;
         }
-        .menu-items {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 30px;
+
+        /* MENU SECTION */
+        .menu-preview {
+            padding: var(--section-padding);
+            background-color: var(--primary-dark);
+            color: var(--white);
         }
-        .menu-card {
-            background-color: #ffffff;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 20px;
-            width: 250px;
-            text-align: left;
-        }
-        .menu-card h4 {
-            color: #ff6600;
-            margin-bottom: 5px;
-        }
-        .menu-card .price {
-            font-weight: bold;
-            color: #333;
-        }
-        .testimonials {
-            background-color: #fffaf0;
-        }
-        .testimonial {
-            max-width: 800px;
-            margin: 0 auto;
-            font-style: italic;
-            font-size: 20px;
-        }
-        .news {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 30px;
-        }
-        .news-card {
-            background-color: #ffffff;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            padding: 20px;
-            width: 300px;
-        }
-        .news-card h4 {
-            color: #ff6600;
-        }
-        .contact {
-            background-color: #fffaf0;
-        }
-        form {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: left;
-        }
-        input, textarea {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ff6600;
-            border-radius: 4px;
-            background-color: #ffffff;
-            color: #333333;
-        }
-        button {
-            background-color: #ff6600;
-            color: #ffffff;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #cc5200;
-        }
-        footer {
-            background-color: #ff6600;
-            color: #ffffff;
+
+        .menu-preview h2 {
+            color: var(--white);
             text-align: center;
-            padding: 20px;
-            margin-top: 20px;
+            font-size: 42px;
+            margin-bottom: 60px;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+
+        .menu-item h4 {
+            font-size: 20px;
+            color: var(--accent-gold);
+        }
+
+        .menu-item .price {
+            font-family: 'Lato', sans-serif;
+            font-weight: 700;
+            font-size: 18px;
+        }
+        
+        .menu-desc {
+            font-size: 14px;
+            color: #9CA4A4;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: var(--primary-brown);
+            color: var(--white);
+            padding: 60px 0 20px;
+            text-align: center;
+        }
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .footer-links {
+            margin-bottom: 30px;
+        }
+        
+        .footer-links a {
+            margin: 0 15px;
+            font-size: 14px;
+            color: var(--soft-beige);
+        }
+
+        .copyright {
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 20px;
+            margin-top: 40px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 42px; }
+            .about-grid, .services-grid, .menu-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; } /* Simplified mobile view */
         }
     </style>
 </head>
 <body>
+
     <header>
-        <div class="logo"></div>
-        <!-- Note: Save the provided image as 'dubes-image.png' in the same directory. -->
-        <nav>
-            <a href="#home">Home</a>
-            <a href="#services">Services</a>
-            <a href="#about">About Us</a>
-            <a href="#menu">Menu</a>
-            <a href="#testimonials">Testimonials</a>
-            <a href="#news">News</a>
-            <a href="#contact">Contact</a>
-        </nav>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">Bite.</a>
+                <ul class="nav-links">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Menu</a></li>
+                    <li><a href="#">Blog</a></li>
+                    <li><a href="#">Contacts</a></li>
+                </ul>
+                <a href="#" class="btn btn-primary">Book Now</a>
+            </nav>
+        </div>
     </header>
 
-    <section id="home" class="hero">
-        <h1>Delicious Moments</h1>
-        <p>Making Every Event Delicious</p>
-        <a href="#contact" class="cta">Book Now</a>
+    <section class="hero">
+        <div class="container hero-content">
+            <span class="hero-subtitle">Premium Catering & Events</span>
+            <h1>Taste the Art of Celebration</h1>
+            <p style="margin-bottom: 30px; font-size: 18px;">Creating unforgettable memories with exquisite food and flawless service.</p>
+            <a href="#" class="btn btn-primary">View Our Menu</a>
+            <a href="#" class="btn btn-outline" style="border-color: #fff; color: #fff; margin-left: 15px;">Contact Us</a>
+        </div>
     </section>
 
-    <section id="services" class="section">
-        <h2>Our Exceptional Services</h2>
-        <p>Creating unforgettable culinary experiences</p>
-        <div class="services">
-            <div class="service-card">
-                <h3>Weddings</h3>
-                <p>Make your special day unforgettable with our customized wedding catering. From elegant hors d'oeuvres to lavish buffets, we handle it all.</p>
-                <a href="#contact" class="cta">Learn More</a>
-            </div>
-            <div class="service-card">
-                <h3>Parties</h3>
-                <p>Whether it's a birthday, anniversary, or casual get-together, our party catering options will delight your guests with delicious and creative menus.</p>
-                <a href="#contact" class="cta">Learn More</a>
-            </div>
-            <div class="service-card">
-                <h3>Events</h3>
-                <p>Corporate events, conferences, or community gatherings – we provide professional catering services tailored to your event's needs.</p>
-                <a href="#contact" class="cta">Learn More</a>
+    <section class="about">
+        <div class="container">
+            <div class="about-grid">
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1556910103-1c02745a30bf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" alt="Catering Setup">
+                </div>
+                <div class="about-text">
+                    <h2>We Create Delicious Memories</h2>
+                    <p>Bite is a refined & alluring event planner and catering service. We specialize in weddings, corporate events, and private parties. Our mission is to provide an exquisite culinary experience combined with impeccable service.</p>
+                    <p>From intimate gatherings to grand celebrations, our team ensures every detail is perfect, allowing you to relax and enjoy your special moment.</p>
+                    <a href="#" class="btn btn-outline">Read Our Story</a>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="about" class="section about">
-        <h2>About Us</h2>
-        <p>Dube's Catering is a family-owned business dedicated to providing exceptional catering services for weddings, parties, and events. With years of experience, we focus on fresh ingredients, impeccable presentation, and outstanding customer service to make every occasion memorable.</p>
-    </section>
-
-    <section id="menu" class="section">
-        <h2>Our Menu Highlights</h2>
-        <p>Discover some of our popular dishes</p>
-        <div class="menu-items">
-            <div class="menu-card">
-                <h4>Sandwich Platter</h4>
-                <span class="price">$12</span>
-                <p>Freshly made sandwiches with a variety of fillings.</p>
+    <section class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Services</h2>
+                <p>Tailored solutions for every occasion</p>
             </div>
-            <div class="menu-card">
-                <h4>Salad Bowl</h4>
-                <span class="price">$10</span>
-                <p>Fresh greens with seasonal vegetables and dressing.</p>
-            </div>
-            <div class="menu-card">
-                <h4>Appetizer Tray</h4>
-                <span class="price">$15</span>
-                <p>Assorted appetizers to start your event.</p>
-            </div>
-            <!-- Add more as needed -->
-        </div>
-    </section>
-
-    <section id="testimonials" class="section testimonials">
-        <h2>What Our Clients Say</h2>
-        <div class="testimonial">
-            <p>"Dube's Catering went above and beyond with every detail flawlessly executed and the experience feeling truly personal and beautifully orchestrated."</p>
-            <p>- Happy Client</p>
-        </div>
-    </section>
-
-    <section id="news" class="section">
-        <h2>Latest News</h2>
-        <p>From our table to yours</p>
-        <div class="news">
-            <div class="news-card">
-                <h4>Choosing the Right Menu for Your Event</h4>
-                <p>Date: January 14, 2026</p>
-                <p>Tips on selecting the perfect dishes for different occasions.</p>
-            </div>
-            <div class="news-card">
-                <h4>The Impact of Fresh Ingredients</h4>
-                <p>Date: January 10, 2026</p>
-                <p>How using seasonal produce elevates your catering experience.</p>
-            </div>
-            <div class="news-card">
-                <h4>Trends in Wedding Catering</h4>
-                <p>Date: January 5, 2026</p>
-                <p>Latest trends to make your wedding unforgettable.</p>
+            <div class="services-grid">
+                <div class="service-card">
+                    <span class="service-icon">✦</span>
+                    <h3>Weddings</h3>
+                    <p>Elegant menus and styling for your perfect day. We handle everything from the cake to the cocktail hour.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">★</span>
+                    <h3>Corporate Events</h3>
+                    <p>Professional catering for meetings, galas, and office parties. Impress your clients with our diverse menu.</p>
+                </div>
+                <div class="service-card">
+                    <span class="service-icon">♥</span>
+                    <h3>Private Parties</h3>
+                    <p>Birthdays, anniversaries, or just because. Let us bring the restaurant experience to your home.</p>
+                </div>
             </div>
         </div>
     </section>
 
-    <section id="contact" class="section contact">
-        <h2>Contact Us</h2>
-        <form>
-            <input type="text" placeholder="Your Name" required>
-            <input type="email" placeholder="Your Email" required>
-            <textarea placeholder="Your Message" rows="5" required></textarea>
-            <button type="submit">Send Message</button>
-        </form>
+    <section class="menu-preview">
+        <div class="container">
+            <h2>Seasonal Menu</h2>
+            <div class="menu-grid">
+                <div>
+                    <div class="menu-item">
+                        <h4>Truffle Risotto</h4>
+                        <span class="price">$24</span>
+                    </div>
+                    <p class="menu-desc">Arborio rice, black truffle oil, parmesan crisp.</p>
+
+                    <div class="menu-item">
+                        <h4>Seared Scallops</h4>
+                        <span class="price">$32</span>
+                    </div>
+                    <p class="menu-desc">Cauliflower purée, crispy pancetta, lemon butter.</p>
+                </div>
+                <div>
+                    <div class="menu-item">
+                        <h4>Herb Crusted Lamb</h4>
+                        <span class="price">$45</span>
+                    </div>
+                    <p class="menu-desc">Roasted root vegetables, red wine reduction.</p>
+
+                    <div class="menu-item">
+                        <h4>Chocolate Fondant</h4>
+                        <span class="price">$18</span>
+                    </div>
+                    <p class="menu-desc">Warm center, vanilla bean ice cream, berries.</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 50px;">
+                <a href="#" class="btn btn-primary">Download Full Menu</a>
+            </div>
+        </div>
     </section>
 
     <footer>
-        <p>&copy; 2026 Dube's Catering. All rights reserved.</p>
+        <div class="container">
+            <div class="footer-logo">Bite.</div>
+            <div class="footer-links">
+                <a href="#">Home</a>
+                <a href="#">About Us</a>
+                <a href="#">Services</a>
+                <a href="#">Events</a>
+                <a href="#">Contact</a>
+            </div>
+            <p>123 Culinary Ave, Food City, FC 90210 • (555) 123-4567</p>
+            <div class="copyright">
+                &copy; 2025 Bite Catering Theme. All rights reserved.
+            </div>
+        </div>
     </footer>
+
 </body>
 </html>
-```
