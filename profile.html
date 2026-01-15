@@ -1,0 +1,124 @@
+<!-- profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: url('https://img.freepik.com/free-photo/abstract-flowing-neon-wave-background_53876-101942.jpg?semt=ais_hybrid&w=740&q=80') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 50px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            max-width: 400px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #4285F4;
+        }
+        p {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 2px solid #4285F4;
+            margin-bottom: 20px;
+        }
+        #signout {
+            background-color: #f44336;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        #signout:hover {
+            background-color: #d32f2f;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>User Profile</h2>
+        <div id="profile-info"></div>
+    </div>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script>
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyALnxMCW74TgU5oODOyhv2_FAylb264PC4",
+            authDomain: "schrodinger-linear-project.firebaseapp.com",
+            projectId: "schrodinger-linear-project",
+            storageBucket: "schrodinger-linear-project.firebasestorage.app",
+            messagingSenderId: "176065453541",
+            appId: "1:176065453541:web:ea2f9fa5fe103a538b630c",
+            measurementId: "G-0QND1FML7H"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // Listen for auth state changes
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                displayUserProfile(user);
+            } else {
+                // Redirect back to login if not authenticated
+                window.location.href = 'login.html';
+            }
+        });
+
+        // Function to display user profile
+        function displayUserProfile(user) {
+            document.getElementById('profile-info').innerHTML = `
+                ${user.photoURL ? `<img src="${user.photoURL}" alt="Profile Photo">` : `<img src="https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&s=100" alt="Default Profile Photo">`}
+                <p>Name: ${user.displayName || 'N/A'}</p>
+                <p>Email: ${user.email}</p>
+                <p>User ID: ${user.uid}</p>
+                <button id="signout">Sign Out</button>
+            `;
+
+            // Sign out button event
+            document.getElementById('signout').addEventListener('click', () => {
+                auth.signOut()
+                    .then(() => {
+                        window.location.href = 'login.html';
+                    })
+                    .catch((error) => {
+                        console.error('Error during sign-out:', error);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>
