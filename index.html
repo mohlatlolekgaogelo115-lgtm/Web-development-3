@@ -4,9 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -15,26 +16,46 @@
             background: url('https://plus.unsplash.com/premium_photo-1730591889242-96ed6a4d609e?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Z29vZ2xlJTIwd2FsbHBhcGVyfGVufDB8fDB8fHww') no-repeat center center fixed;
             background-size: cover;
             color: #333;
+            overflow: hidden;
         }
         .container {
             text-align: center;
-            background-color: rgba(255, 255, 255, 0.8);
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 50px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            max-width: 400px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #4285F4;
+        }
+        p {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            color: #555;
         }
         #login-trigger {
             background-color: #4285F4;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 16px;
-            margin-top: 20px;
+            font-size: 1.1em;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3);
         }
         #login-trigger:hover {
             background-color: #357ae8;
+            transform: scale(1.05);
         }
         /* Modal for desktop */
         .modal {
@@ -46,29 +67,40 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0,0,0,0.4);
+            background-color: rgba(0,0,0,0.5);
             justify-content: center;
             align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         .modal-content {
-            background-color: #fefefe;
+            background-color: #fff;
             margin: auto;
-            padding: 20px;
-            border: 1px solid #888;
+            padding: 30px;
+            border-radius: 16px;
             width: 80%;
             max-width: 400px;
-            border-radius: 8px;
             text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.4s ease;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
         }
         .close {
-            color: #aaa;
+            color: #888;
             float: right;
             font-size: 28px;
             font-weight: bold;
+            transition: color 0.3s ease;
         }
         .close:hover,
         .close:focus {
-            color: black;
+            color: #333;
             text-decoration: none;
             cursor: pointer;
         }
@@ -80,10 +112,12 @@
             left: 0;
             width: 100%;
             background-color: white;
-            padding: 20px;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
-            transition: bottom 0.3s ease-in-out;
+            padding: 30px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+            transition: bottom 0.4s ease-in-out;
             text-align: center;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
         }
         .sheet.active {
             bottom: 0;
@@ -91,26 +125,49 @@
         .login-button {
             background-color: #4285F4;
             color: white;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 1.1em;
+            font-weight: 500;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0 auto;
+            margin: 20px auto;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3);
         }
         .login-button:hover {
             background-color: #357ae8;
+            transform: scale(1.05);
         }
         .google-icon {
-            width: 18px;
-            height: 18px;
-            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
         }
         #user-info {
             margin-top: 20px;
+            font-size: 1em;
+            color: #555;
+        }
+        #user-info img {
+            border: 2px solid #4285F4;
+            margin: 10px 0;
+        }
+        #signout {
+            background-color: #f44336;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+        #signout:hover {
+            background-color: #d32f2f;
         }
         @media (max-width: 767px) {
             .modal {
@@ -118,6 +175,9 @@
             }
             .sheet {
                 display: block;
+            }
+            .container {
+                padding: 40px;
             }
         }
         @media (min-width: 768px) {
@@ -137,7 +197,6 @@
         <button id="login-trigger">Login</button>
         <div id="user-info"></div>
     </div>
-
     <!-- Modal for desktop -->
     <div id="modal" class="modal">
         <div class="modal-content">
@@ -149,7 +208,6 @@
             </button>
         </div>
     </div>
-
     <!-- Sheet for mobile -->
     <div id="sheet" class="sheet">
         <h3>Sign In</h3>
@@ -158,11 +216,9 @@
             Sign in with Google
         </button>
     </div>
-
     <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-
     <script>
         // Your Firebase configuration
         const firebaseConfig = {
@@ -174,14 +230,11 @@
             appId: "1:176065453541:web:ea2f9fa5fe103a538b630c",
             measurementId: "G-0QND1FML7H"
         };
-
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
-
         // Google Auth Provider
         const provider = new firebase.auth.GoogleAuthProvider();
-
         // Function to handle sign in
         function handleSignIn() {
             auth.signInWithPopup(provider)
@@ -195,11 +248,9 @@
                     alert('Sign-in failed: ' + error.message);
                 });
         }
-
         // Sign in buttons events
         document.getElementById('google-signin-desktop').addEventListener('click', handleSignIn);
         document.getElementById('google-signin-mobile').addEventListener('click', handleSignIn);
-
         // Listen for auth state changes
         auth.onAuthStateChanged((user) => {
             if (user) {
@@ -210,7 +261,6 @@
                 document.getElementById('login-trigger').style.display = 'block';
             }
         });
-
         // Function to display user info
         function displayUserInfo(user) {
             document.getElementById('user-info').innerHTML = `
@@ -230,7 +280,6 @@
                     });
             });
         }
-
         // Login trigger event
         document.getElementById('login-trigger').addEventListener('click', () => {
             if (window.innerWidth >= 768) {
@@ -239,7 +288,6 @@
                 document.getElementById('sheet').classList.add('active');
             }
         });
-
         // Close modal
         const modal = document.getElementById('modal');
         const closeBtn = document.getElementsByClassName('close')[0];
@@ -249,7 +297,6 @@
                 closeModalOrSheet();
             }
         });
-
         // Function to close modal or sheet
         function closeModalOrSheet() {
             document.getElementById('modal').style.display = 'none';
