@@ -6,27 +6,41 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Roboto', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; background-color: #f0f2f5; }
-        .profile-card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; width: 320px; }
+        .profile-card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); text-align: center; width: 320px; }
+        
+        /* Profile Image */
         img { border-radius: 50%; width: 100px; height: 100px; margin-bottom: 20px; border: 3px solid #4285F4; object-fit: cover; }
-        input { width: 80%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; text-align: center; font-size: 1rem; }
-        .btn-save { background-color: #4CAF50; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; width: 100%; margin-top: 5px; }
-        .btn-logout { background-color: #f44336; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 20px; width: 100%; }
-        #status-msg { font-size: 0.8rem; margin-top: 10px; color: #4CAF50; }
+        
+        /* Input Styling */
+        input { width: 90%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; text-align: center; }
+        
+        /* Buttons */
+        .btn { width: 100%; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 1rem; font-weight: 500; margin-top: 10px; transition: 0.3s; }
+        
+        .save-btn { background-color: #4CAF50; color: white; }
+        .save-btn:hover { background-color: #45a049; }
+        
+        .logout-btn { background-color: #f44336; color: white; margin-top: 20px; }
+        .logout-btn:hover { background-color: #d32f2f; }
+        
+        #status-msg { height: 20px; font-size: 0.85rem; margin-top: 10px; color: #4CAF50; }
     </style>
 </head>
 <body>
 
     <div class="profile-card" id="profile-card" style="display:none;">
         <img id="user-photo" src="" alt="Profile Picture">
-        <p id="user-email" style="color: #666;"></p>
+        <p id="user-email" style="color: #666; font-size: 0.9rem;"></p>
         
-        <label for="display-name" style="font-size: 0.9rem; color: #888;">Full Name</label>
+        <label style="display:block; text-align:left; font-size:0.8rem; color:#888; margin-left:5%">Display Name</label>
         <input type="text" id="display-name" placeholder="Enter your name">
         
-        <button class="btn-save" id="save-btn">Update Name</button>
+        <button class="btn save-btn" id="save-btn">Update Name</button>
         <div id="status-msg"></div>
         
-        <button class="btn-logout" id="logout-btn">Logout</button>
+        <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+        
+        <button class="btn logout-btn" id="logout-btn">Sign Out</button>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
@@ -38,7 +52,7 @@
             apiKey: "AIzaSyALnxMCW74TgU5oODOyhv2_FAylb264PC4",
             authDomain: "schrodinger-linear-project.firebaseapp.com",
             projectId: "schrodinger-linear-project",
-            databaseURL: "https://schrodinger-linear-project-default-rtdb.firebaseio.com", // Check this in your Firebase Console
+            databaseURL: "https://schrodinger-linear-project-default-rtdb.firebaseio.com", 
             storageBucket: "schrodinger-linear-project.firebasestorage.app",
             messagingSenderId: "176065453541",
             appId: "1:176065453541:web:ea2f9fa5fe103a538b630c"
@@ -48,6 +62,7 @@
         const auth = firebase.auth();
         const database = firebase.database();
 
+        // 1. Check Auth State
         auth.onAuthStateChanged((user) => {
             if (user) {
                 document.getElementById('profile-card').style.display = 'block';
@@ -55,45 +70,44 @@
                 document.getElementById('user-photo').src = user.photoURL || 'https://via.placeholder.com/100';
 
                 // Fetch Name from Realtime Database
-                const userRef = database.ref('users/' + user.uid);
-                userRef.on('value', (snapshot) => {
+                database.ref('users/' + user.uid).on('value', (snapshot) => {
                     const data = snapshot.val();
                     if (data && data.displayName) {
                         document.getElementById('display-name').value = data.displayName;
                     } else {
-                        // Fallback to Google Auth name if DB is empty
                         document.getElementById('display-name').value = user.displayName || "";
                     }
                 });
-
             } else {
+                // Not logged in? Go back to login page
                 window.location.href = 'index.html'; 
             }
         });
 
-        // Save new name to Realtime Database
+        // 2. Update Name in Database
         document.getElementById('save-btn').addEventListener('click', () => {
-            const newName = document.getElementById('display-name').value;
             const user = auth.currentUser;
+            const newName = document.getElementById('display-name').value;
             const status = document.getElementById('status-msg');
 
             if (user) {
-                database.ref('users/' + user.uid).set({
-                    displayName: newName,
-                    email: user.email
-                })
-                .then(() => {
-                    status.innerText = "Profile updated successfully!";
-                    setTimeout(() => status.innerText = "", 3000);
-                })
-                .catch((error) => {
-                    alert("Error updating profile: " + error.message);
+                database.ref('users/' + user.uid).update({
+                    displayName: newName
+                }).then(() => {
+                    status.innerText = "Name updated!";
+                    setTimeout(() => status.innerText = "", 2000);
                 });
             }
         });
 
+        // 3. Sign Out Function
         document.getElementById('logout-btn').addEventListener('click', () => {
-            auth.signOut();
+            auth.signOut().then(() => {
+                console.log("User signed out");
+                // The onAuthStateChanged listener above will handle the redirect
+            }).catch((error) => {
+                alert("Error signing out: " + error.message);
+            });
         });
     </script>
 </body>
