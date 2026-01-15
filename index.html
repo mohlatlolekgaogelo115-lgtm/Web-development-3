@@ -7,19 +7,28 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
+            background-image: url('https://source.unsplash.com/random/1920x1080/?abstract');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
         }
-        .login-container {
-            background-color: white;
-            padding: 40px;
+        .overlay {
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+            max-width: 400px;
+            width: 100%;
+        }
+        #user-info {
+            margin-top: 20px;
         }
         .login-button {
             background-color: #4285F4;
@@ -42,20 +51,115 @@
             height: 18px;
             margin-right: 10px;
         }
-        #user-info {
-            margin-top: 20px;
+        /* Bottom Sheet for Mobile */
+        .bottom-sheet {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            padding: 20px;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            color: black;
+            transform: translateY(100%);
+            transition: transform 0.3s ease-out;
+        }
+        .bottom-sheet.show {
+            transform: translateY(0);
+        }
+        /* Modal for Desktop */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            color: black;
+            z-index: 1000;
+        }
+        .modal.show {
+            display: block;
+        }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+        .modal-overlay.show {
+            display: block;
+        }
+        /* Media Queries */
+        @media (max-width: 768px) {
+            .bottom-sheet {
+                display: block;
+            }
+            .modal {
+                display: none !important;
+            }
+            .modal-overlay {
+                display: none !important;
+            }
+        }
+        @media (min-width: 769px) {
+            .bottom-sheet {
+                display: none !important;
+            }
+            .modal {
+                display: block;
+            }
+        }
+        #signout {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        #signout:hover {
+            background-color: #d32f2f;
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <h2>Welcome</h2>
-        <p>Please sign in with Google to continue.</p>
-        <button id="google-signin" class="login-button">
+    <div class="overlay">
+        <h1>Welcome to the App</h1>
+        <p>Please sign in to continue.</p>
+        <div id="user-info"></div>
+    </div>
+
+    <!-- Bottom Sheet for Mobile -->
+    <div id="bottom-sheet" class="bottom-sheet">
+        <h2>Sign In</h2>
+        <button id="google-signin-mobile" class="login-button">
             <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="google-icon">
             Sign in with Google
         </button>
-        <div id="user-info"></div>
+    </div>
+
+    <!-- Modal for Desktop -->
+    <div id="modal-overlay" class="modal-overlay"></div>
+    <div id="modal" class="modal">
+        <h2>Sign In</h2>
+        <button id="google-signin-desktop" class="login-button">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="google-icon">
+            Sign in with Google
+        </button>
     </div>
 
     <!-- Firebase SDK -->
@@ -81,8 +185,50 @@
         // Google Auth Provider
         const provider = new firebase.auth.GoogleAuthProvider();
 
-        // Sign in button event
-        document.getElementById('google-signin').addEventListener('click', () => {
+        // Function to show login prompt based on device
+        function showLoginPrompt() {
+            if (window.innerWidth <= 768) {
+                document.getElementById('bottom-sheet').classList.add('show');
+            } else {
+                document.getElementById('modal').classList.add('show');
+                document.getElementById('modal-overlay').classList.add('show');
+            }
+            document.querySelector('.overlay p').textContent = 'Please sign in to continue.';
+        }
+
+        // Function to hide login prompt
+        function hideLoginPrompt() {
+            document.getElementById('bottom-sheet').classList.remove('show');
+            document.getElementById('modal').classList.remove('show');
+            document.getElementById('modal-overlay').classList.remove('show');
+            document.querySelector('.overlay p').textContent = 'You are signed in.';
+        }
+
+        // Display user info
+        function displayUserInfo(user) {
+            document.getElementById('user-info').innerHTML = `
+                <p>Signed in as: ${user.displayName}</p>
+                <p>Email: ${user.email}</p>
+                <img src="${user.photoURL}" alt="Profile" style="width: 50px; border-radius: 50%;">
+                <button id="signout">Sign Out</button>
+            `;
+            hideLoginPrompt();
+
+            // Sign out button event
+            document.getElementById('signout').addEventListener('click', () => {
+                auth.signOut()
+                    .then(() => {
+                        document.getElementById('user-info').innerHTML = '';
+                        showLoginPrompt();
+                    })
+                    .catch((error) => {
+                        console.error('Error during sign-out:', error);
+                    });
+            });
+        }
+
+        // Sign in function
+        function signInWithGoogle() {
             auth.signInWithPopup(provider)
                 .then((result) => {
                     const user = result.user;
@@ -92,7 +238,11 @@
                     console.error('Error during sign-in:', error);
                     alert('Sign-in failed: ' + error.message);
                 });
-        });
+        }
+
+        // Attach events to both buttons
+        document.getElementById('google-signin-mobile').addEventListener('click', signInWithGoogle);
+        document.getElementById('google-signin-desktop').addEventListener('click', signInWithGoogle);
 
         // Listen for auth state changes
         auth.onAuthStateChanged((user) => {
@@ -100,30 +250,9 @@
                 displayUserInfo(user);
             } else {
                 document.getElementById('user-info').innerHTML = '';
+                showLoginPrompt();
             }
         });
-
-        // Function to display user info
-        function displayUserInfo(user) {
-            document.getElementById('user-info').innerHTML = `
-                <p>Signed in as: ${user.displayName}</p>
-                <p>Email: ${user.email}</p>
-                <img src="${user.photoURL}" alt="Profile" style="width: 50px; border-radius: 50%;">
-                <button id="signout" style="margin-top: 10px;">Sign Out</button>
-            `;
-            document.getElementById('google-signin').style.display = 'none';
-
-            // Sign out button event
-            document.getElementById('signout').addEventListener('click', () => {
-                auth.signOut()
-                    .then(() => {
-                        document.getElementById('google-signin').style.display = 'block';
-                    })
-                    .catch((error) => {
-                        console.error('Error during sign-out:', error);
-                    });
-            });
-        }
     </script>
 </body>
 </html>
