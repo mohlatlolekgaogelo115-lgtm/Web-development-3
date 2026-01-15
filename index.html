@@ -3,242 +3,127 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dube's Catering | Great Food for Great Events</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
-    
+    <title>Login Page</title>
     <style>
-        :root {
-            --orange: #ff7a21;
-            --white: #ffffff;
-            --text-dark: #333333;
-            --font-heading: 'Playfair Display', serif;
-            --font-body: 'Lato', sans-serif;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body { font-family: var(--font-body); color: var(--text-dark); background: var(--white); }
-
-        /* --- NAVIGATION --- */
-        .navbar {
+        body {
+            font-family: Arial, sans-serif;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
-            padding: 1.2rem 8%;
-            background: var(--white);
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
         }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
-            font-family: var(--font-heading);
-            font-size: 1.5rem;
-            color: var(--text-dark);
-            font-weight: 700;
+        .login-container {
+            background-color: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
-
-        .logo-box {
-            background: var(--orange);
+        .login-button {
+            background-color: #4285F4;
             color: white;
-            padding: 5px 12px;
+            padding: 10px 20px;
+            border: none;
             border-radius: 4px;
-        }
-
-        .nav-links { display: flex; gap: 2.5rem; }
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-dark);
-            font-size: 0.95rem;
-            font-weight: 400;
-        }
-
-        .btn-orange {
-            background: var(--orange);
-            color: white;
-            padding: 10px 25px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: 700;
-            transition: 0.3s;
-        }
-
-        .btn-orange:hover { background: #e66a1a; }
-
-        /* --- HERO SECTION --- */
-        .hero {
-            height: 90vh;
-            margin-top: 70px; /* Space for navbar */
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.4)), 
-                        url('https://i.postimg.cc/5Nf6DkSJ/cff2d420-55bb-4e60-8a71-0ab3f05c498f.jpg');
-            background-size: cover;
-            background-position: center;
+            cursor: pointer;
+            font-size: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            color: white;
-        }
-
-        .hero-content h1 {
-            font-family: var(--font-heading);
-            font-size: 4.5rem;
-            line-height: 1.2;
-            margin-bottom: 20px;
-        }
-
-        .hero-content h1 span { color: var(--orange); }
-
-        .hero-content p {
-            font-size: 1.2rem;
-            margin-bottom: 35px;
-            font-weight: 400;
-            letter-spacing: 0.5px;
-        }
-
-        /* --- CONTENT SECTIONS --- */
-        section { padding: 80px 10%; text-align: center; }
-
-        .section-title {
-            font-family: var(--font-heading);
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-        }
-
-        .orange-line {
-            width: 60px;
-            height: 4px;
-            background: var(--orange);
-            margin: 0 auto 40px;
-        }
-
-        .event-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .card {
-            background: white;
-            border: 1px solid #eee;
-            border-radius: 10px;
-            overflow: hidden;
-            transition: 0.3s;
-        }
-
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(255,122,33,0.1); }
-
-        .card img { width: 100%; height: 250px; object-fit: cover; }
-
-        .card-info { padding: 25px; }
-        .card-info h3 { margin-bottom: 10px; color: var(--orange); font-family: var(--font-heading); }
-
-        /* --- CONTACT --- */
-        .contact { background: #fffcf9; }
-        .contact form {
-            max-width: 600px;
             margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
         }
-
-        input, textarea {
-            padding: 15px;
-            border: 2px solid #eee;
-            border-radius: 5px;
-            font-size: 1rem;
+        .login-button:hover {
+            background-color: #357ae8;
         }
-
-        input:focus { border-color: var(--orange); outline: none; }
-
-        footer {
-            padding: 40px;
-            background: white;
-            border-top: 1px solid #eee;
-            text-align: center;
+        .google-icon {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
         }
-
-        /* RESPONSIVE */
-        @media (max-width: 768px) {
-            .hero-content h1 { font-size: 2.8rem; }
-            .nav-links { display: none; }
+        #user-info {
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
+    <div class="login-container">
+        <h2>Welcome</h2>
+        <p>Please sign in with Google to continue.</p>
+        <button id="google-signin" class="login-button">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="google-icon">
+            Sign in with Google
+        </button>
+        <div id="user-info"></div>
+    </div>
 
-    <nav class="navbar">
-        <a href="#" class="logo">
-            <span class="logo-box">D</span> Dube's<span>&</span>Catering
-        </a>
-        <div class="nav-links">
-            <a href="#home">Home</a>
-            <a href="#events">Events</a>
-            <a href="#contact">Contact</a>
-        </div>
-        <a href="#contact" class="btn-orange">Book Now</a>
-    </nav>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
 
-    <header id="home" class="hero">
-        <div class="hero-content">
-            <h1>Spoil your <span>appetite</span>,<br>with us</h1>
-            <p>Catering for weddings, parties, and corporate events</p>
-            <a href="#events" class="btn-orange" style="padding: 15px 40px;">Explore Events</a>
-        </div>
-    </header>
+    <script>
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyALnxMCW74TgU5oODOyhv2_FAylb264PC4",
+            authDomain: "schrodinger-linear-project.firebaseapp.com",
+            projectId: "schrodinger-linear-project",
+            storageBucket: "schrodinger-linear-project.firebasestorage.app",
+            messagingSenderId: "176065453541",
+            appId: "1:176065453541:web:ea2f9fa5fe103a538b630c",
+            measurementId: "G-0QND1FML7H"
+        };
 
-    <section id="events">
-        <h2 class="section-title">What We Do</h2>
-        <div class="orange-line"></div>
-        
-        <div class="event-grid">
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1519741497674-611481863552?q=80&w=800" alt="Wedding">
-                <div class="card-info">
-                    <h3>Weddings</h3>
-                    <p>Simple and beautiful food for your big day.</p>
-                </div>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?q=80&w=800" alt="Corporate">
-                <div class="card-info">
-                    <h3>Work Events</h3>
-                    <p>Good food to keep your team and clients happy.</p>
-                </div>
-            </div>
-            <div class="card">
-                <img src="https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?q=80&w=800" alt="Parties">
-                <div class="card-info">
-                    <h3>Private Parties</h3>
-                    <p>Delicious meals for birthdays and small gatherings.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
 
-    <section id="contact" class="contact">
-        <h2 class="section-title">Contact Us</h2>
-        <div class="orange-line"></div>
-        <form>
-            <input type="text" placeholder="Your Name" required>
-            <input type="email" placeholder="Your Email" required>
-            <textarea placeholder="Tell us about your event (Date, guest count, etc.)" rows="5"></textarea>
-            <button type="submit" class="btn-orange">Send Message</button>
-        </form>
-    </section>
+        // Google Auth Provider
+        const provider = new firebase.auth.GoogleAuthProvider();
 
-    <footer>
-        <p>&copy; 2026 Dube's Catering. All rights reserved.</p>
-    </footer>
+        // Sign in button event
+        document.getElementById('google-signin').addEventListener('click', () => {
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    const user = result.user;
+                    displayUserInfo(user);
+                })
+                .catch((error) => {
+                    console.error('Error during sign-in:', error);
+                    alert('Sign-in failed: ' + error.message);
+                });
+        });
 
+        // Listen for auth state changes
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                displayUserInfo(user);
+            } else {
+                document.getElementById('user-info').innerHTML = '';
+            }
+        });
+
+        // Function to display user info
+        function displayUserInfo(user) {
+            document.getElementById('user-info').innerHTML = `
+                <p>Signed in as: ${user.displayName}</p>
+                <p>Email: ${user.email}</p>
+                <img src="${user.photoURL}" alt="Profile" style="width: 50px; border-radius: 50%;">
+                <button id="signout" style="margin-top: 10px;">Sign Out</button>
+            `;
+            document.getElementById('google-signin').style.display = 'none';
+
+            // Sign out button event
+            document.getElementById('signout').addEventListener('click', () => {
+                auth.signOut()
+                    .then(() => {
+                        document.getElementById('google-signin').style.display = 'block';
+                    })
+                    .catch((error) => {
+                        console.error('Error during sign-out:', error);
+                    });
+            });
+        }
+    </script>
 </body>
 </html>
