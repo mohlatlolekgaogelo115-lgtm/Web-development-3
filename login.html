@@ -1,0 +1,366 @@
+<!-- login.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: url('https://img.freepik.com/free-photo/abstract-flowing-neon-wave-background_53876-101942.jpg?semt=ais_hybrid&w=740&q=80') no-repeat center center fixed;
+            background-size: cover;
+            color: #333;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 50px;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            max-width: 400px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #4285F4;
+        }
+        p {
+            font-size: 1.1em;
+            margin-bottom: 20px;
+            color: #555;
+        }
+        #login-trigger {
+            background-color: #4285F4;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3);
+        }
+        #login-trigger:hover {
+            background-color: #357ae8;
+            transform: scale(1.05);
+        }
+        /* Modal for desktop */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: auto;
+            padding: 30px;
+            border-radius: 16px;
+            width: 80%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.4s ease;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .close {
+            color: #888;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        .close:hover,
+        .close:focus {
+            color: #333;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        /* Sheet for mobile */
+        .sheet {
+            display: none;
+            position: fixed;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            padding: 30px;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
+            transition: bottom 0.4s ease-in-out;
+            text-align: center;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+        }
+        .sheet.active {
+            bottom: 0;
+        }
+        .login-button {
+            background-color: #4285F4;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1em;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px auto;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3);
+        }
+        .login-button:hover {
+            background-color: #357ae8;
+            transform: scale(1.05);
+        }
+        .google-icon {
+            width: 20px;
+            height: 20px;
+            margin-right: 12px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input {
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+        .signin-email {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-top: 10px;
+            transition: background-color 0.3s ease;
+        }
+        .signin-email:hover {
+            background-color: #45a049;
+        }
+        #user-info {
+            margin-top: 20px;
+            font-size: 1em;
+            color: #555;
+        }
+        #user-info img {
+            border: 2px solid #4285F4;
+            margin: 10px 0;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+        }
+        #signout {
+            background-color: #f44336;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s ease;
+        }
+        #signout:hover {
+            background-color: #d32f2f;
+        }
+        @media (max-width: 767px) {
+            .modal {
+                display: none !important;
+            }
+            .sheet {
+                display: block;
+            }
+            .container {
+                padding: 40px;
+            }
+        }
+        @media (min-width: 768px) {
+            .sheet {
+                display: none !important;
+            }
+            .modal {
+                display: flex;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome</h2>
+        <p>Please login to continue.</p>
+        <button id="login-trigger">Login</button>
+        <div id="user-info"></div>
+    </div>
+    <!-- Modal for desktop -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Sign In</h3>
+            <form>
+                <input type="email" class="email-input" placeholder="Email">
+                <input type="password" class="password-input" placeholder="Password">
+                <button type="button" class="signin-email">Login</button>
+            </form>
+            <p style="text-align: center; margin: 10px 0;">or</p>
+            <button id="google-signin-desktop" class="login-button">
+                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="google-icon">
+                Sign in with Google
+            </button>
+        </div>
+    </div>
+    <!-- Sheet for mobile -->
+    <div id="sheet" class="sheet">
+        <h3>Sign In</h3>
+        <form>
+            <input type="email" class="email-input" placeholder="Email">
+            <input type="password" class="password-input" placeholder="Password">
+            <button type="button" class="signin-email">Login</button>
+        </form>
+        <p style="text-align: center; margin: 10px 0;">or</p>
+        <button id="google-signin-mobile" class="login-button">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="google-icon">
+            Sign in with Google
+        </button>
+    </div>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script>
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyALnxMCW74TgU5oODOyhv2_FAylb264PC4",
+            authDomain: "schrodinger-linear-project.firebaseapp.com",
+            projectId: "schrodinger-linear-project",
+            storageBucket: "schrodinger-linear-project.firebasestorage.app",
+            messagingSenderId: "176065453541",
+            appId: "1:176065453541:web:ea2f9fa5fe103a538b630c",
+            measurementId: "G-0QND1FML7H"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        // Google Auth Provider
+        const provider = new firebase.auth.GoogleAuthProvider();
+        // Function to handle Google sign in
+        function handleSignIn() {
+            auth.signInWithPopup(provider)
+                .then((result) => {
+                    // Redirect to profile page on success
+                    window.location.href = 'profile.html';
+                })
+                .catch((error) => {
+                    console.error('Error during sign-in:', error);
+                    alert('Sign-in failed: ' + error.message);
+                });
+        }
+        // Sign in buttons events for Google
+        document.getElementById('google-signin-desktop').addEventListener('click', handleSignIn);
+        document.getElementById('google-signin-mobile').addEventListener('click', handleSignIn);
+        // Email sign-in buttons (optional redirect, but keeping display for now)
+        document.querySelectorAll('.signin-email').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const form = btn.closest('form');
+                const email = form.querySelector('.email-input').value;
+                const password = form.querySelector('.password-input').value;
+                auth.signInWithEmailAndPassword(email, password)
+                    .then((userCredential) => {
+                        const user = userCredential.user;
+                        displayUserInfo(user);
+                        closeModalOrSheet();
+                    })
+                    .catch((error) => {
+                        console.error('Error during email sign-in:', error);
+                        alert('Email sign-in failed: ' + error.message);
+                    });
+            });
+        });
+        // Listen for auth state changes
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                // Redirect if already logged in
+                window.location.href = 'profile.html';
+            } else {
+                document.getElementById('user-info').innerHTML = '';
+                document.getElementById('login-trigger').style.display = 'block';
+            }
+        });
+        // Function to display user info (for email login, if needed)
+        function displayUserInfo(user) {
+            document.getElementById('user-info').innerHTML = `
+                <p>Signed in as: ${user.displayName || user.email}</p>
+                <p>Email: ${user.email}</p>
+                ${user.photoURL ? `<img src="${user.photoURL}" alt="Profile" style="width: 50px; border-radius: 50%;">` : ''}
+                <button id="signout" style="margin-top: 10px;">Sign Out</button>
+            `;
+            document.getElementById('login-trigger').style.display = 'none';
+            // Sign out button event
+            document.getElementById('signout').addEventListener('click', () => {
+                auth.signOut()
+                    .then(() => {
+                        closeModalOrSheet();
+                    })
+                    .catch((error) => {
+                        console.error('Error during sign-out:', error);
+                    });
+            });
+        }
+        // Login trigger event
+        document.getElementById('login-trigger').addEventListener('click', () => {
+            if (window.innerWidth >= 768) {
+                document.getElementById('modal').style.display = 'flex';
+            } else {
+                document.getElementById('sheet').classList.add('active');
+            }
+        });
+        // Close modal
+        const modal = document.getElementById('modal');
+        const closeBtn = document.getElementsByClassName('close')[0];
+        closeBtn.addEventListener('click', closeModalOrSheet);
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                closeModalOrSheet();
+            }
+        });
+        // Function to close modal or sheet
+        function closeModalOrSheet() {
+            document.getElementById('modal').style.display = 'none';
+            document.getElementById('sheet').classList.remove('active');
+        }
+    </script>
+</body>
+</html>
