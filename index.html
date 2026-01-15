@@ -7,26 +7,86 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: url('https://wallpapers.com/images/hd/google-sunset-mountains-chrome-theme-fptnw9bzb312e05l.jpg') no-repeat center center fixed;
+            height: 100vh;
+            margin: 0;
+            background: url('https://plus.unsplash.com/premium_photo-1730591889242-96ed6a4d609e?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Z29vZ2xlJTIwd2FsbHBhcGVyfGVufDB8fDB8fHww') no-repeat center center fixed;
             background-size: cover;
-            color: white; /* For better visibility on potentially dark backgrounds */
+            color: #333;
         }
         .container {
             text-align: center;
-            background: rgba(255, 255, 255, 0.8); /* Semi-transparent for readability */
+            background-color: rgba(255, 255, 255, 0.8);
             padding: 40px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
         }
-        #user-info {
+        #login-trigger {
+            background-color: #4285F4;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        #login-trigger:hover {
+            background-color: #357ae8;
+        }
+        /* Modal for desktop */
+        .modal {
             display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 8px;
+            text-align: center;
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        /* Sheet for mobile */
+        .sheet {
+            display: none;
+            position: fixed;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.2);
+            transition: bottom 0.3s ease-in-out;
+            text-align: center;
+        }
+        .sheet.active {
+            bottom: 0;
         }
         .login-button {
             background-color: #4285F4;
@@ -39,7 +99,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 20px auto;
+            margin: 0 auto;
         }
         .login-button:hover {
             background-color: #357ae8;
@@ -49,76 +109,54 @@
             height: 18px;
             margin-right: 10px;
         }
-        /* Bottom Sheet for Mobile */
-        .bottom-sheet {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: white;
-            padding: 20px;
-            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-            transform: translateY(100%);
-            transition: transform 0.3s ease-in-out;
-            z-index: 1000;
-            text-align: center;
+        #user-info {
+            margin-top: 20px;
         }
-        .bottom-sheet.show {
-            transform: translateY(0);
+        @media (max-width: 767px) {
+            .modal {
+                display: none !important;
+            }
+            .sheet {
+                display: block;
+            }
         }
-        /* Modal for Desktop */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        .modal-content {
-            background: white;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 400px;
-        }
-        /* Hide elements based on auth state */
-        .authenticated #login-elements {
-            display: none;
+        @media (min-width: 768px) {
+            .sheet {
+                display: none !important;
+            }
+            .modal {
+                display: flex;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container" id="main-container">
+    <div class="container">
         <h2>Welcome</h2>
+        <p>Please login to continue.</p>
+        <button id="login-trigger">Login</button>
         <div id="user-info"></div>
     </div>
 
-    <!-- Bottom Sheet for Mobile -->
-    <div id="bottom-sheet" class="bottom-sheet">
-        <h3>Sign In</h3>
-        <p>Please sign in with Google to continue.</p>
-        <button id="google-signin-mobile" class="login-button">
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="google-icon">
-            Sign in with Google
-        </button>
-    </div>
-
-    <!-- Modal for Desktop -->
+    <!-- Modal for desktop -->
     <div id="modal" class="modal">
         <div class="modal-content">
+            <span class="close">&times;</span>
             <h3>Sign In</h3>
-            <p>Please sign in with Google to continue.</p>
             <button id="google-signin-desktop" class="login-button">
                 <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="google-icon">
                 Sign in with Google
             </button>
         </div>
+    </div>
+
+    <!-- Sheet for mobile -->
+    <div id="sheet" class="sheet">
+        <h3>Sign In</h3>
+        <button id="google-signin-mobile" class="login-button">
+            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="google-icon">
+            Sign in with Google
+        </button>
     </div>
 
     <!-- Firebase SDK -->
@@ -144,30 +182,13 @@
         // Google Auth Provider
         const provider = new firebase.auth.GoogleAuthProvider();
 
-        // Function to show login interface based on device
-        function showLoginInterface() {
-            const isMobile = window.innerWidth <= 768;
-            if (isMobile) {
-                document.getElementById('bottom-sheet').classList.add('show');
-            } else {
-                document.getElementById('modal').style.display = 'flex';
-            }
-            document.getElementById('user-info').style.display = 'none';
-        }
-
-        // Function to hide login interfaces
-        function hideLoginInterfaces() {
-            document.getElementById('bottom-sheet').classList.remove('show');
-            document.getElementById('modal').style.display = 'none';
-            document.getElementById('user-info').style.display = 'block';
-        }
-
-        // Sign in function
-        function signIn() {
+        // Function to handle sign in
+        function handleSignIn() {
             auth.signInWithPopup(provider)
                 .then((result) => {
                     const user = result.user;
                     displayUserInfo(user);
+                    closeModalOrSheet();
                 })
                 .catch((error) => {
                     console.error('Error during sign-in:', error);
@@ -175,17 +196,18 @@
                 });
         }
 
-        // Add event listeners to both buttons
-        document.getElementById('google-signin-mobile').addEventListener('click', signIn);
-        document.getElementById('google-signin-desktop').addEventListener('click', signIn);
+        // Sign in buttons events
+        document.getElementById('google-signin-desktop').addEventListener('click', handleSignIn);
+        document.getElementById('google-signin-mobile').addEventListener('click', handleSignIn);
 
         // Listen for auth state changes
         auth.onAuthStateChanged((user) => {
             if (user) {
-                hideLoginInterfaces();
                 displayUserInfo(user);
+                document.getElementById('login-trigger').style.display = 'none';
             } else {
-                showLoginInterface();
+                document.getElementById('user-info').innerHTML = '';
+                document.getElementById('login-trigger').style.display = 'block';
             }
         });
 
@@ -195,14 +217,13 @@
                 <p>Signed in as: ${user.displayName}</p>
                 <p>Email: ${user.email}</p>
                 <img src="${user.photoURL}" alt="Profile" style="width: 50px; border-radius: 50%;">
-                <button id="signout" style="margin-top: 10px; background-color: #f44336; color: white; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer;">Sign Out</button>
+                <button id="signout" style="margin-top: 10px;">Sign Out</button>
             `;
-
             // Sign out button event
             document.getElementById('signout').addEventListener('click', () => {
                 auth.signOut()
                     .then(() => {
-                        // Will trigger onAuthStateChanged to show login again
+                        closeModalOrSheet();
                     })
                     .catch((error) => {
                         console.error('Error during sign-out:', error);
@@ -210,13 +231,30 @@
             });
         }
 
-        // Handle window resize (in case device orientation changes)
-        window.addEventListener('resize', () => {
-            if (!auth.currentUser) {
-                hideLoginInterfaces();
-                showLoginInterface();
+        // Login trigger event
+        document.getElementById('login-trigger').addEventListener('click', () => {
+            if (window.innerWidth >= 768) {
+                document.getElementById('modal').style.display = 'flex';
+            } else {
+                document.getElementById('sheet').classList.add('active');
             }
         });
+
+        // Close modal
+        const modal = document.getElementById('modal');
+        const closeBtn = document.getElementsByClassName('close')[0];
+        closeBtn.addEventListener('click', closeModalOrSheet);
+        window.addEventListener('click', (event) => {
+            if (event.target === modal) {
+                closeModalOrSheet();
+            }
+        });
+
+        // Function to close modal or sheet
+        function closeModalOrSheet() {
+            document.getElementById('modal').style.display = 'none';
+            document.getElementById('sheet').classList.remove('active');
+        }
     </script>
 </body>
 </html>
