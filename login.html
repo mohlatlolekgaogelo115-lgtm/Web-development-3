@@ -1,366 +1,131 @@
-<!-- login.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>KasiFix | Local Kasi Hustle Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background: url('https://img.freepik.com/free-photo/abstract-flowing-neon-wave-background_53876-101942.jpg?semt=ais_hybrid&w=740&q=80') no-repeat center center fixed;
-            background-size: cover;
-            color: #333;
-            overflow: hidden;
-        }
-        .container {
-            text-align: center;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 50px;
-            border-radius: 16px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-            max-width: 400px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-        .container:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-        }
-        h2 {
-            font-size: 2em;
-            margin-bottom: 10px;
-            color: #4285F4;
-        }
-        p {
-            font-size: 1.1em;
-            margin-bottom: 20px;
-            color: #555;
-        }
-        #login-trigger {
-            background-color: #4285F4;
-            color: white;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1.1em;
-            font-weight: 500;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3);
-        }
-        #login-trigger:hover {
-            background-color: #357ae8;
-            transform: scale(1.05);
-        }
-        /* Modal for desktop */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.5);
-            justify-content: center;
-            align-items: center;
-            animation: fadeIn 0.3s ease;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        .modal-content {
-            background-color: #fff;
-            margin: auto;
-            padding: 30px;
-            border-radius: 16px;
-            width: 80%;
-            max-width: 400px;
-            text-align: center;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-            animation: slideUp 0.4s ease;
-        }
-        @keyframes slideUp {
-            from { transform: translateY(50px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-        .close {
-            color: #888;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            transition: color 0.3s ease;
-        }
-        .close:hover,
-        .close:focus {
-            color: #333;
-            text-decoration: none;
-            cursor: pointer;
-        }
-        /* Sheet for mobile */
-        .sheet {
-            display: none;
-            position: fixed;
-            bottom: -100%;
-            left: 0;
-            width: 100%;
-            background-color: white;
-            padding: 30px;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.2);
-            transition: bottom 0.4s ease-in-out;
-            text-align: center;
-            border-top-left-radius: 16px;
-            border-top-right-radius: 16px;
-        }
-        .sheet.active {
-            bottom: 0;
-        }
-        .login-button {
-            background-color: #4285F4;
-            color: white;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1.1em;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 20px auto;
-            transition: background-color 0.3s ease, transform 0.2s ease;
-            box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3);
-        }
-        .login-button:hover {
-            background-color: #357ae8;
-            transform: scale(1.05);
-        }
-        .google-icon {
-            width: 20px;
-            height: 20px;
-            margin-right: 12px;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-        input {
-            margin-bottom: 10px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 1em;
-        }
-        .signin-email {
-            background-color: #4CAF50;
-            color: white;
-            padding: 12px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1.1em;
-            margin-top: 10px;
-            transition: background-color 0.3s ease;
-        }
-        .signin-email:hover {
-            background-color: #45a049;
-        }
-        #user-info {
-            margin-top: 20px;
-            font-size: 1em;
-            color: #555;
-        }
-        #user-info img {
-            border: 2px solid #4285F4;
-            margin: 10px 0;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-        }
-        #signout {
-            background-color: #f44336;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 1em;
-            transition: background-color 0.3s ease;
-        }
-        #signout:hover {
-            background-color: #d32f2f;
-        }
-        @media (max-width: 767px) {
-            .modal {
-                display: none !important;
-            }
-            .sheet {
-                display: block;
-            }
-            .container {
-                padding: 40px;
-            }
-        }
-        @media (min-width: 768px) {
-            .sheet {
-                display: none !important;
-            }
-            .modal {
-                display: flex;
-            }
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+        body { font-family: 'Inter', sans-serif; }
     </style>
 </head>
-<body>
-    <div class="container">
-        <h2>Welcome</h2>
-        <p>Please login to continue.</p>
-        <button id="login-trigger">Login</button>
-        <div id="user-info"></div>
-    </div>
-    <!-- Modal for desktop -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h3>Sign In</h3>
-            <form>
-                <input type="email" class="email-input" placeholder="Email">
-                <input type="password" class="password-input" placeholder="Password">
-                <button type="button" class="signin-email">Login</button>
-            </form>
-            <p style="text-align: center; margin: 10px 0;">or</p>
-            <button id="google-signin-desktop" class="login-button">
-                <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="google-icon">
-                Sign in with Google
-            </button>
+<body class="bg-gray-50">
+
+    <nav class="bg-white border-b sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex items-center">
+                    <span class="text-2xl font-extrabold text-[#1e3a8a]">Kasi<span class="text-[#f97316]">Fix</span></span>
+                </div>
+                <div class="hidden md:flex space-x-8 items-center">
+                    <a href="#" class="text-gray-600 hover:text-blue-900 font-medium">Find Work</a>
+                    <a href="#" class="text-gray-600 hover:text-blue-900 font-medium">Safety</a>
+                    <button class="bg-[#f97316] text-white px-6 py-2 rounded-full font-bold hover:bg-orange-600 transition shadow-md">
+                        Join as a Hustler
+                    </button>
+                </div>
+            </div>
         </div>
-    </div>
-    <!-- Sheet for mobile -->
-    <div id="sheet" class="sheet">
-        <h3>Sign In</h3>
-        <form>
-            <input type="email" class="email-input" placeholder="Email">
-            <input type="password" class="password-input" placeholder="Password">
-            <button type="button" class="signin-email">Login</button>
-        </form>
-        <p style="text-align: center; margin: 10px 0;">or</p>
-        <button id="google-signin-mobile" class="login-button">
-            <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" alt="Google" class="google-icon">
-            Sign in with Google
-        </button>
-    </div>
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-    <script>
-        // Your Firebase configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyALnxMCW74TgU5oODOyhv2_FAylb264PC4",
-            authDomain: "schrodinger-linear-project.firebaseapp.com",
-            projectId: "schrodinger-linear-project",
-            storageBucket: "schrodinger-linear-project.firebasestorage.app",
-            messagingSenderId: "176065453541",
-            appId: "1:176065453541:web:ea2f9fa5fe103a538b630c",
-            measurementId: "G-0QND1FML7H"
-        };
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        // Google Auth Provider
-        const provider = new firebase.auth.GoogleAuthProvider();
-        // Function to handle Google sign in
-        function handleSignIn() {
-            auth.signInWithPopup(provider)
-                .then((result) => {
-                    // Redirect to profile page on success
-                    window.location.href = 'profile.html';
-                })
-                .catch((error) => {
-                    console.error('Error during sign-in:', error);
-                    alert('Sign-in failed: ' + error.message);
-                });
-        }
-        // Sign in buttons events for Google
-        document.getElementById('google-signin-desktop').addEventListener('click', handleSignIn);
-        document.getElementById('google-signin-mobile').addEventListener('click', handleSignIn);
-        // Email sign-in buttons (optional redirect, but keeping display for now)
-        document.querySelectorAll('.signin-email').forEach(btn => {
-            btn.addEventListener('click', () => {
-                const form = btn.closest('form');
-                const email = form.querySelector('.email-input').value;
-                const password = form.querySelector('.password-input').value;
-                auth.signInWithEmailAndPassword(email, password)
-                    .then((userCredential) => {
-                        const user = userCredential.user;
-                        displayUserInfo(user);
-                        closeModalOrSheet();
-                    })
-                    .catch((error) => {
-                        console.error('Error during email sign-in:', error);
-                        alert('Email sign-in failed: ' + error.message);
-                    });
-            });
-        });
-        // Listen for auth state changes
-        auth.onAuthStateChanged((user) => {
-            if (user) {
-                // Redirect if already logged in
-                window.location.href = 'profile.html';
-            } else {
-                document.getElementById('user-info').innerHTML = '';
-                document.getElementById('login-trigger').style.display = 'block';
-            }
-        });
-        // Function to display user info (for email login, if needed)
-        function displayUserInfo(user) {
-            document.getElementById('user-info').innerHTML = `
-                <p>Signed in as: ${user.displayName || user.email}</p>
-                <p>Email: ${user.email}</p>
-                ${user.photoURL ? `<img src="${user.photoURL}" alt="Profile" style="width: 50px; border-radius: 50%;">` : ''}
-                <button id="signout" style="margin-top: 10px;">Sign Out</button>
-            `;
-            document.getElementById('login-trigger').style.display = 'none';
-            // Sign out button event
-            document.getElementById('signout').addEventListener('click', () => {
-                auth.signOut()
-                    .then(() => {
-                        closeModalOrSheet();
-                    })
-                    .catch((error) => {
-                        console.error('Error during sign-out:', error);
-                    });
-            });
-        }
-        // Login trigger event
-        document.getElementById('login-trigger').addEventListener('click', () => {
-            if (window.innerWidth >= 768) {
-                document.getElementById('modal').style.display = 'flex';
-            } else {
-                document.getElementById('sheet').classList.add('active');
-            }
-        });
-        // Close modal
-        const modal = document.getElementById('modal');
-        const closeBtn = document.getElementsByClassName('close')[0];
-        closeBtn.addEventListener('click', closeModalOrSheet);
-        window.addEventListener('click', (event) => {
-            if (event.target === modal) {
-                closeModalOrSheet();
-            }
-        });
-        // Function to close modal or sheet
-        function closeModalOrSheet() {
-            document.getElementById('modal').style.display = 'none';
-            document.getElementById('sheet').classList.remove('active');
-        }
-    </script>
+    </nav>
+
+    <header class="bg-[#1e3a8a] py-16 px-4">
+        <div class="max-w-5xl mx-auto text-center text-white">
+            <h1 class="text-4xl md:text-6xl font-extrabold mb-4 tracking-tight">Local Kasi Hustle Hub</h1>
+            <p class="text-xl text-blue-100 mb-10">Vetted local help for solar, generators, and essential errands.</p>
+            
+            <div class="bg-white p-2 rounded-2xl shadow-2xl flex flex-col md:flex-row items-center max-w-3xl mx-auto">
+                <div class="flex-1 w-full px-4 py-2 border-b md:border-b-0 md:border-r border-gray-200 flex items-center">
+                    <i class="fa-solid fa-magnifying-glass text-gray-400 mr-3"></i>
+                    <input type="text" placeholder="Gate motor repair, solar cleaning..." class="w-full outline-none text-gray-800">
+                </div>
+                <div class="w-full md:w-48 px-4 py-2 flex items-center">
+                    <i class="fa-solid fa-location-dot text-gray-400 mr-3"></i>
+                    <input type="text" placeholder="Location" class="w-full outline-none text-gray-800" value="Soweto">
+                </div>
+                <button class="w-full md:w-auto bg-[#f97316] text-white px-10 py-4 rounded-xl font-bold hover:bg-orange-600 transition">
+                    Find Help
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <section class="max-w-7xl mx-auto px-4 py-16">
+        <h2 class="text-3xl font-extrabold text-gray-900 mb-8">What do you need?</h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:border-orange-500 transition cursor-pointer text-center group">
+                <div class="bg-blue-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-orange-50">
+                    <i class="fa-solid fa-solar-panel text-blue-600 text-xl group-hover:text-orange-600"></i>
+                </div>
+                <h3 class="font-bold text-gray-800">Solar Cleaning</h3>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:border-orange-500 transition cursor-pointer text-center group">
+                <div class="bg-blue-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-orange-50">
+                    <i class="fa-solid fa-person-running text-blue-600 text-xl group-hover:text-orange-600"></i>
+                </div>
+                <h3 class="font-bold text-gray-800">Queue Runners</h3>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:border-orange-500 transition cursor-pointer text-center group">
+                <div class="bg-blue-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-orange-50">
+                    <i class="fa-solid fa-bolt text-blue-600 text-xl group-hover:text-orange-600"></i>
+                </div>
+                <h3 class="font-bold text-gray-800">Generator Fix</h3>
+            </div>
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:border-orange-500 transition cursor-pointer text-center group">
+                <div class="bg-blue-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-orange-50">
+                    <i class="fa-solid fa-faucet text-blue-600 text-xl group-hover:text-orange-600"></i>
+                </div>
+                <h3 class="font-bold text-gray-800">Plumbing</h3>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-gray-100 py-16 px-4">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex justify-between items-end mb-10">
+                <div>
+                    <h2 class="text-3xl font-extrabold text-gray-900">Featured Hustlers</h2>
+                    <p class="text-gray-600">Verified professionals in your area.</p>
+                </div>
+                <a href="#" class="text-orange-600 font-bold hover:underline">See All</a>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-3xl overflow-hidden shadow-lg border border-gray-200">
+                    <div class="p-8">
+                        <div class="flex justify-between mb-4">
+                            <div class="bg-gray-200 w-14 h-14 rounded-2xl flex items-center justify-center font-bold text-xl text-gray-500">L</div>
+                            <span class="bg-green-100 text-green-700 text-xs font-bold px-3 py-1 rounded-full flex items-center h-fit">
+                                <i class="fa-solid fa-shield-check mr-1"></i> VETTED
+                            </span>
+                        </div>
+                        <h4 class="text-xl font-bold">Lucky Dube</h4>
+                        <p class="text-orange-500 font-semibold mb-4">Inverter & Battery Setup</p>
+                        <div class="flex items-center text-gray-500 text-sm mb-6">
+                            <i class="fa-solid fa-star text-yellow-400 mr-1"></i> 4.9 (62 Reviews)
+                        </div>
+                        <div class="flex justify-between items-center border-t pt-6">
+                            <span class="text-2xl font-bold text-gray-900">R350<small class="text-sm font-normal text-gray-500">/hr</small></span>
+                            <button class="bg-blue-900 text-white px-6 py-2 rounded-xl font-bold">Book</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-gray-900 text-white py-12 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <div class="text-2xl font-bold mb-4">Kasi<span class="text-orange-500">Fix</span></div>
+            <p class="text-gray-400 mb-8">Building trust in the local South African economy.</p>
+            <div class="flex justify-center space-x-6">
+                <i class="fa-brands fa-facebook text-2xl hover:text-orange-500 cursor-pointer"></i>
+                <i class="fa-brands fa-whatsapp text-2xl hover:text-orange-500 cursor-pointer"></i>
+                <i class="fa-brands fa-instagram text-2xl hover:text-orange-500 cursor-pointer"></i>
+            </div>
+        </div>
+    </footer>
+
 </body>
 </html>
